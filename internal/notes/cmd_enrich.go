@@ -2,6 +2,7 @@ package notes
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -20,7 +21,7 @@ func CmdEnrich(args []string) error {
 	}
 
 	if len(notesList) == 0 {
-		fmt.Println("All notes up to date")
+		fmt.Fprintln(os.Stderr, "All notes up to date")
 		return nil
 	}
 
