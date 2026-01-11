@@ -88,17 +88,11 @@ func CmdEnrich(args []string) error {
 
 	fmt.Println("## Notes to Enrich")
 	fmt.Println()
-
+	fmt.Println("Use `notes show <filename>` to read each note's content:")
+	fmt.Println()
 	for _, note := range notesList {
 		filename := filepath.Base(note.Filename)
-		fmt.Printf("### %s\n", filename)
-		fmt.Printf("Created: %s\n", note.Frontmatter.Created.Format("2006-01-02 15:04"))
-		fmt.Println()
-		fmt.Println("```")
-		fmt.Print(strings.TrimSpace(note.Content))
-		fmt.Println()
-		fmt.Println("```")
-		fmt.Println()
+		fmt.Printf("- %s (created: %s)\n", filename, note.Frontmatter.Created.Format("2006-01-02 15:04"))
 	}
 
 	return nil
