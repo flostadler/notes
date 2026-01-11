@@ -1,4 +1,4 @@
-module notes
+module github.com/flostadler/notes
 
 go 1.24.7
 

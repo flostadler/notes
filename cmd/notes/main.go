@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"notes/internal/notes"
+	"github.com/flostadler/notes/internal/notes"
 )
 
 const usage = `notes - A minimal, ADHD-friendly notes system
