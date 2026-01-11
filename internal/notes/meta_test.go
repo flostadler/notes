@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"os"
@@ -118,20 +118,20 @@ func TestBidirectionalRelations(t *testing.T) {
 	aMeta := meta.GetFileMeta("a.md")
 	bMeta := meta.GetFileMeta("b.md")
 
-	if !contains(aMeta.Related, "b.md") {
+	if !Contains(aMeta.Related, "b.md") {
 		t.Error("a.md should be related to b.md")
 	}
-	if !contains(bMeta.Related, "a.md") {
+	if !Contains(bMeta.Related, "a.md") {
 		t.Error("b.md should be related to a.md")
 	}
 
 	// Remove relation
 	meta.RemoveRelation("a.md", "b.md")
 
-	if contains(aMeta.Related, "b.md") {
+	if Contains(aMeta.Related, "b.md") {
 		t.Error("a.md should not be related to b.md after removal")
 	}
-	if contains(bMeta.Related, "a.md") {
+	if Contains(bMeta.Related, "a.md") {
 		t.Error("b.md should not be related to a.md after removal")
 	}
 }

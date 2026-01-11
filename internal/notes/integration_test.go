@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"os"
@@ -253,7 +253,7 @@ func TestCmdUpdateBidirectional(t *testing.T) {
 	// Check that b.md now relates back to a.md
 	meta, _ = LoadMetaFile(tmpDir)
 	bMeta := meta.GetFileMeta("b.md")
-	if bMeta == nil || !contains(bMeta.Related, "a.md") {
+	if bMeta == nil || !Contains(bMeta.Related, "a.md") {
 		t.Error("b.md should have bidirectional relation to a.md")
 	}
 }

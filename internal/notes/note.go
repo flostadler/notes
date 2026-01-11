@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"bufio"
@@ -197,7 +197,7 @@ func (n *Note) ToMarkdown() string {
 	return buf.String()
 }
 
-// SaveNote writes a note to the specified path
+// Save writes a note to the specified path
 func (n *Note) Save(filepath string) error {
 	return os.WriteFile(filepath, []byte(n.ToMarkdown()), 0644)
 }

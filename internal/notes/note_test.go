@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"os"
@@ -256,7 +256,7 @@ func TestGenerateFilename(t *testing.T) {
 	defer os.RemoveAll(tmpDir)
 
 	// First filename should not have suffix
-	filename1, err := generateFilename(tmpDir)
+	filename1, err := GenerateFilename(tmpDir)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -268,7 +268,7 @@ func TestGenerateFilename(t *testing.T) {
 	os.WriteFile(filepath.Join(tmpDir, filename1), []byte("test"), 0644)
 
 	// Second filename should have -1 suffix
-	filename2, err := generateFilename(tmpDir)
+	filename2, err := GenerateFilename(tmpDir)
 	if err != nil {
 		t.Fatal(err)
 	}

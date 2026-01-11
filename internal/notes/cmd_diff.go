@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"fmt"
@@ -59,7 +59,7 @@ func GetNotesNeedingEnrichment(notesDir string) ([]*Note, error) {
 		return nil, fmt.Errorf("failed to read notes directory: %w", err)
 	}
 
-	var notes []*Note
+	var notesList []*Note
 	for _, entry := range entries {
 		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".md") {
 			continue
@@ -73,9 +73,9 @@ func GetNotesNeedingEnrichment(notesDir string) ([]*Note, error) {
 
 		currentHash := note.ContentHash()
 		if meta.NeedsEnrichment(entry.Name(), currentHash) {
-			notes = append(notes, note)
+			notesList = append(notesList, note)
 		}
 	}
 
-	return notes, nil
+	return notesList, nil
 }
