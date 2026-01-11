@@ -13,13 +13,13 @@ A minimal, ADHD-friendly notes system written in Go. Designed for quick capture 
 ## Installation
 
 ```bash
-go install notes/cmd/notes@latest
+go install github.com/flostadler/notes/cmd/notes@latest
 ```
 
 Or build from source:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/flostadler/notes.git
 cd notes
 go build -o notes ./cmd/notes
 ```
