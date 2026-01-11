@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+
+	"notes/internal/notes"
 )
 
 const usage = `notes - A minimal, ADHD-friendly notes system
@@ -44,27 +46,27 @@ func main() {
 	var err error
 	switch cmd {
 	case "new":
-		err = CmdNew(args)
+		err = notes.CmdNew(args)
 	case "list":
-		err = CmdList(args)
+		err = notes.CmdList(args)
 	case "show":
-		err = CmdShow(args)
+		err = notes.CmdShow(args)
 	case "edit":
-		err = CmdEdit(args)
+		err = notes.CmdEdit(args)
 	case "meta":
-		err = CmdMeta(args)
+		err = notes.CmdMeta(args)
 	case "diff":
-		err = CmdDiff(args)
+		err = notes.CmdDiff(args)
 	case "enrich":
-		err = CmdEnrich(args)
+		err = notes.CmdEnrich(args)
 	case "update":
-		err = CmdUpdate(args)
+		err = notes.CmdUpdate(args)
 	case "sync":
-		err = CmdSync(args)
+		err = notes.CmdSync(args)
 	case "graph":
-		err = CmdGraph(args)
+		err = notes.CmdGraph(args)
 	case "tags":
-		err = CmdTags(args)
+		err = notes.CmdTags(args)
 	case "help", "-h", "--help":
 		fmt.Print(usage)
 	case "version", "-v", "--version":

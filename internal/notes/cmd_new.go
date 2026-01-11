@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"fmt"
@@ -17,12 +17,12 @@ func CmdNew(args []string) error {
 	}
 
 	// Generate filename
-	filename, err := generateFilename(notesDir)
+	filename, err := GenerateFilename(notesDir)
 	if err != nil {
 		return fmt.Errorf("failed to generate filename: %w", err)
 	}
 
-	filepath := filepath.Join(notesDir, filename)
+	notePath := filepath.Join(notesDir, filename)
 	now := time.Now()
 
 	// Create note with empty frontmatter
@@ -38,50 +38,50 @@ func CmdNew(args []string) error {
 	if len(args) > 0 {
 		// Content provided as argument
 		note.Content = "\n" + strings.Join(args, " ") + "\n"
-		if err := note.Save(filepath); err != nil {
+		if err := note.Save(notePath); err != nil {
 			return fmt.Errorf("failed to save note: %w", err)
 		}
 	} else {
 		// Open editor
 		note.Content = "\n"
-		if err := note.Save(filepath); err != nil {
+		if err := note.Save(notePath); err != nil {
 			return fmt.Errorf("failed to save template: %w", err)
 		}
 
 		// Open editor
 		editor := GetEditor()
-		cmd := exec.Command(editor, filepath)
+		cmd := exec.Command(editor, notePath)
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 
 		if err := cmd.Run(); err != nil {
 			// Clean up file on editor error
-			os.Remove(filepath)
+			os.Remove(notePath)
 			return fmt.Errorf("editor failed: %w", err)
 		}
 
 		// Re-read the file to check if content was added
-		editedNote, err := ParseNote(filepath)
+		editedNote, err := ParseNote(notePath)
 		if err != nil {
-			os.Remove(filepath)
+			os.Remove(notePath)
 			return fmt.Errorf("failed to parse edited note: %w", err)
 		}
 
 		// Check if content is empty or just whitespace
 		if strings.TrimSpace(editedNote.Content) == "" {
-			os.Remove(filepath)
+			os.Remove(notePath)
 			fmt.Fprintln(os.Stderr, "Aborted: no content added")
 			return nil
 		}
 	}
 
-	fmt.Printf("Created %s\n", filepath)
+	fmt.Printf("Created %s\n", notePath)
 	return nil
 }
 
-// generateFilename creates a unique filename for the current time
-func generateFilename(notesDir string) (string, error) {
+// GenerateFilename creates a unique filename for the current time
+func GenerateFilename(notesDir string) (string, error) {
 	now := time.Now()
 	base := now.Format("2006-01-02-1504")
 

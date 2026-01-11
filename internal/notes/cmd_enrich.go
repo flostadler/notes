@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"fmt"
@@ -14,12 +14,12 @@ func CmdEnrich(args []string) error {
 		return fmt.Errorf("failed to get notes directory: %w", err)
 	}
 
-	notes, err := GetNotesNeedingEnrichment(notesDir)
+	notesList, err := GetNotesNeedingEnrichment(notesDir)
 	if err != nil {
 		return fmt.Errorf("failed to get notes needing enrichment: %w", err)
 	}
 
-	if len(notes) == 0 {
+	if len(notesList) == 0 {
 		fmt.Println("All notes up to date")
 		return nil
 	}
@@ -69,7 +69,7 @@ func CmdEnrich(args []string) error {
 	fmt.Println("## Notes to Enrich")
 	fmt.Println()
 
-	for _, note := range notes {
+	for _, note := range notesList {
 		filename := filepath.Base(note.Filename)
 		fmt.Printf("### %s\n", filename)
 		fmt.Printf("Created: %s\n", note.Frontmatter.Created.Format("2006-01-02 15:04"))

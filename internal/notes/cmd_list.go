@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"flag"
@@ -58,7 +58,7 @@ func CmdList(args []string) error {
 		tags     []string
 	}
 
-	var notes []noteInfo
+	var notesList []noteInfo
 
 	for _, entry := range entries {
 		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".md") {
@@ -81,7 +81,7 @@ func CmdList(args []string) error {
 			continue
 		}
 
-		notes = append(notes, noteInfo{
+		notesList = append(notesList, noteInfo{
 			filename: entry.Name(),
 			summary:  note.GetSummaryOrFirstLine(),
 			created:  note.Frontmatter.Created.Time,
@@ -90,17 +90,17 @@ func CmdList(args []string) error {
 	}
 
 	// Sort by created date, newest first
-	sort.Slice(notes, func(i, j int) bool {
-		return notes[i].created.After(notes[j].created)
+	sort.Slice(notesList, func(i, j int) bool {
+		return notesList[i].created.After(notesList[j].created)
 	})
 
 	// Apply limit
-	if *limitFlag > 0 && len(notes) > *limitFlag {
-		notes = notes[:*limitFlag]
+	if *limitFlag > 0 && len(notesList) > *limitFlag {
+		notesList = notesList[:*limitFlag]
 	}
 
 	// Output
-	for _, n := range notes {
+	for _, n := range notesList {
 		if *rawFlag {
 			fmt.Println(n.filename)
 		} else {

@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"encoding/json"
@@ -105,14 +105,14 @@ func (m *MetaFile) UpdateFromNoteWithEnrichment(note *Note) {
 func (m *MetaFile) AddRelation(from, to string) {
 	// Add to -> from relation
 	if meta := m.Files[from]; meta != nil {
-		if !contains(meta.Related, to) {
+		if !Contains(meta.Related, to) {
 			meta.Related = append(meta.Related, to)
 		}
 	}
 
 	// Add from -> to relation (bidirectional)
 	if meta := m.Files[to]; meta != nil {
-		if !contains(meta.Related, from) {
+		if !Contains(meta.Related, from) {
 			meta.Related = append(meta.Related, from)
 		}
 	}
@@ -121,14 +121,15 @@ func (m *MetaFile) AddRelation(from, to string) {
 // RemoveRelation removes a bidirectional relation between two notes
 func (m *MetaFile) RemoveRelation(from, to string) {
 	if meta := m.Files[from]; meta != nil {
-		meta.Related = removeString(meta.Related, to)
+		meta.Related = RemoveString(meta.Related, to)
 	}
 	if meta := m.Files[to]; meta != nil {
-		meta.Related = removeString(meta.Related, from)
+		meta.Related = RemoveString(meta.Related, from)
 	}
 }
 
-func contains(slice []string, item string) bool {
+// Contains checks if a string slice contains an item
+func Contains(slice []string, item string) bool {
 	for _, s := range slice {
 		if s == item {
 			return true
@@ -137,7 +138,8 @@ func contains(slice []string, item string) bool {
 	return false
 }
 
-func removeString(slice []string, item string) []string {
+// RemoveString removes an item from a string slice
+func RemoveString(slice []string, item string) []string {
 	result := make([]string, 0, len(slice))
 	for _, s := range slice {
 		if s != item {

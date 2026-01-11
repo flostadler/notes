@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"flag"
@@ -119,10 +119,10 @@ func CmdUpdate(args []string) error {
 	if *relatedFlag != "" {
 		// Remove old relations that are no longer present
 		for _, oldRel := range prevRelated {
-			if !contains(newRelated, oldRel) {
+			if !Contains(newRelated, oldRel) {
 				// Remove reverse relation
 				if relMeta := meta.GetFileMeta(oldRel); relMeta != nil {
-					relMeta.Related = removeString(relMeta.Related, filename)
+					relMeta.Related = RemoveString(relMeta.Related, filename)
 					// Also update the file's frontmatter
 					updateRelatedInFile(notesDir, oldRel, relMeta.Related)
 				}
@@ -131,10 +131,10 @@ func CmdUpdate(args []string) error {
 
 		// Add new relations
 		for _, newRel := range newRelated {
-			if !contains(prevRelated, newRel) {
+			if !Contains(prevRelated, newRel) {
 				// Add reverse relation
 				if relMeta := meta.GetFileMeta(newRel); relMeta != nil {
-					if !contains(relMeta.Related, filename) {
+					if !Contains(relMeta.Related, filename) {
 						relMeta.Related = append(relMeta.Related, filename)
 						// Also update the file's frontmatter
 						updateRelatedInFile(notesDir, newRel, relMeta.Related)
@@ -144,7 +144,7 @@ func CmdUpdate(args []string) error {
 					relPath := filepath.Join(notesDir, newRel)
 					if _, err := os.Stat(relPath); err == nil {
 						if relNote, err := ParseNote(relPath); err == nil {
-							if !contains(relNote.Frontmatter.Related, filename) {
+							if !Contains(relNote.Frontmatter.Related, filename) {
 								relNote.Frontmatter.Related = append(relNote.Frontmatter.Related, filename)
 								relNote.Save(relPath)
 							}
